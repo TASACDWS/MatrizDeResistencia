@@ -1,0 +1,116 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<script>
+		
+		function Node(data, position) {
+			this.data = data;
+			this.next = null;
+			this.position = position;
+		}
+		 
+		function SinglyList() {
+			this.length = 0;
+			this.head = null;
+		}
+
+		SinglyList.prototype.add = function(value, position) {
+			var node = new Node(value, position),
+				currentNode = this.head;
+		 
+			// 1st use-case: an empty list
+			if (!currentNode) {
+				this.head = node;
+				this.length++;
+		 
+				return node;
+			}
+			
+			// 2nd use-case: a non-empty list
+			for (var i = 0 ; i < this.length; i++) {
+				if (currentNode.next != null && ( position > currentNode.next.position)) {
+					currentNode = currentNode.next;
+				}
+			}
+			
+			node.next = currentNode.next;
+			currentNode.next = node;
+		 
+			this.length++;
+			 
+			return node;
+		};
+		 
+		SinglyList.prototype.searchNodeAt = function(position) {
+			var currentNode = this.head,
+				length = this.length,
+				index = 0;
+				message = {failure: 'Failure: non-existent node in this list.'};
+		 
+			for (index ; index < this.length; index++) {
+				if (currentNode.position === position) {
+					return currentNode;
+				} else {
+					currentNode = currentNode.next;
+				}
+			}
+			
+			if (!currentNode) {
+				return new Node(0, index);
+			}
+			
+			return currentNode;
+		};
+		
+		function print(list){
+			for (var i = 0 ; i < 25; i++) {
+				document.write(list.searchNodeAt(i).data + "-");
+			}
+			
+			var table = document.createElement('table');
+			table.border = 1;
+			var row = document.createElement('tr');
+			var cell = document.createElement('td');
+			row.appendChild(cell);
+			table.appendChild(row);
+			document.body.appendChild(table);
+		}
+		
+		function a(){
+		
+			var list = new SinglyList();
+			list.add('Inicio', -1);
+			list.add('10', 7);
+			list.add('20', 9);
+			list.add('30', 3);
+			list.add('40', 8);
+			list.add('50', 5);
+			list.add('60', 0);
+			list.add('80', 7);
+			console.log(list);
+			
+			console.log(list.head);
+			
+			print(list);
+		}
+		
+		</script>
+
+		<style>
+		input {
+			width: 100%;  
+			margin: 10px 0;
+			padding: 10px;
+			border: 1px solid #018bbc;
+			border-radius: 5px;  
+		}
+		</style>
+	</head>
+
+	<body>
+		<!- span Counting Sort </span ->
+		<!- input type="text" id="input" placeholder="Enter comma separated list of integers" ->
+		<button type="button" id="button" onclick="a();">Sort</button>
+		<!- input type="text" id="result" disabled placeholder="Sorted array is displayed here..." ->
+	</body>
+</html> 
